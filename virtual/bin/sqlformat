@@ -1,4 +1,4 @@
-#!/home/alinur/InstagramClone/virtual/bin/python3
+#!/home/alinur/InstagramClone/virtual/bin/python3.8
 # -*- coding: utf-8 -*-
 import re
 import sys
