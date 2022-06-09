@@ -20,7 +20,7 @@ class Image(models.Model):
     post_date = models.DateTimeField(auto_now_add=True)
     comments=models.ForeignKey('Comment',on_delete=models.CASCADE)
     profile=models.ForeignKey(Profile,null=True)
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    user = models.ForeignKey(User,on_delete=models.CASCADE, null=True)
     class Meta:
         ordering=['post_date']
 
