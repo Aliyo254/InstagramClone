@@ -3,12 +3,10 @@ from django.contrib.auth.decorators import login_required
 from .models import Image,User,Profile
 from .forms import NewImageForm,NewProfileForm
 # Create your views here.
-@login_required(login_url='/accounts/register/')
+@login_required(login_url='/accounts/login/')
 def index(request):
-    
     images=Image.objects.all()
     return render(request,'index.html',{'images':images,})
-
 @login_required(login_url='/accounts/login/')
 def newimage(request):
     current_user = request.user
@@ -18,11 +16,24 @@ def newimage(request):
             image = form.save(commit=False)
             image.user = current_user
             image.save()
-        return redirect('index')
+        return redirect('Home')
 
     else:
         form = NewImageForm()
     return render(request, 'image.html', {"form": form})
+@login_required(login_url="/accounts/login/")
+def like(request,operation,pk):
+    image = get_object_or_404(Image,pk=pk)
+
+    if operation == 'like':
+
+        image.likes += 1
+        image.save()
+    elif operation =='unlike':
+        image.likes -= 1
+        image.save()
+    return redirect('Home')
+@login_required(login_url="/accounts/login/")
 def profile(request):
     profiles=Profile.objects.filter(user=request.user.id)
     images=Image.objects.filter(user=request.user.id)
@@ -40,7 +51,8 @@ def new_profile(request):
 
     else:
         profile_form = NewProfileForm()
-    return render(request, 'new_profile.html', {"profile_form": profile_form,})
+    return render(request, 'newprofile.html', {"profile_form": profile_form,})
+
 def search_profiles(request):
     if 'profiles' in request.GET and request.GET['profiles']:
         search_term=request.GET.get('profiles')
@@ -56,15 +68,3 @@ def search_profiles(request):
         message='You Havent searched for any term'
 
         return render(request, 'search.html',{"message":message},)
-@login_required(login_url="/accounts/login/")
-def like(request,operation,pk):
-    image = get_object_or_404(Image,pk=pk)
-
-    if operation == 'like':
-
-        image.likes += 1
-        image.save()
-    elif operation =='unlike':
-        image.likes -= 1
-        image.save()
-    return redirect('Home')
