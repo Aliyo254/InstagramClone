@@ -14,3 +14,15 @@ class Image(models.Model):
 
     class Meta:
         ordering=['post_date']
+
+        
+
+    def save_image (self):
+        self.save()
+
+    def delete_image(self):
+        self.delete()
+    @classmethod
+    def update_caption(cls,id,caption):
+        new_caption=Image.filter_by(id=id).update(caption=caption)
+        return new_caption
