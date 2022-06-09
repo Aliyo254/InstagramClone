@@ -10,7 +10,7 @@ class Image(models.Model):
     caption=models.CharField(max_length=60)
     likes=models.IntegerField()
     post_date = models.DateTimeField(auto_now_add=True)
-    comments=models.ForeignKey('Comment')
+    comments=models.ForeignKey('Comment',on_delete=models.CASCADE)
 
     class Meta:
         ordering=['post_date']
