@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required
 from .models import Image,User,Profile
 from .forms import NewImageForm,NewProfileForm
@@ -56,3 +56,15 @@ def search_profiles(request):
         message='You Havent searched for any term'
 
         return render(request, 'search.html',{"message":message},)
+@login_required(login_url="/accounts/login/")
+def like(request,operation,pk):
+    image = get_object_or_404(Image,pk=pk)
+
+    if operation == 'like':
+
+        image.likes += 1
+        image.save()
+    elif operation =='unlike':
+        image.likes -= 1
+        image.save()
+    return redirect('Home')
