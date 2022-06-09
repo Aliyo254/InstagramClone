@@ -9,6 +9,8 @@ class Profile(models.Model):
     profile_pic=models.ImageField(upload_to='profile_photos/')
     bio=models.CharField(max_length=300)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
+
+    
     def save_profile(self):
         self.save()
     @classmethod
