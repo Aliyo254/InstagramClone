@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from .models import Image,User,Profile
-from .forms import NewImageForm
+from .forms import NewImageForm,NewProfileForm
 # Create your views here.
 @login_required(login_url='/accounts/register/')
 def index(request):
@@ -27,3 +27,17 @@ def profile(request):
     profiles=Profile.objects.filter(user=request.user.id)
     images=Image.objects.filter(user=request.user.id)
     return render (request,'profile.html',{'images':images,'profiles':profiles,})
+@login_required(login_url="/accounts/login/")
+def new_profile(request):
+    current_user = request.user
+    if request.method == 'POST':
+        profile_form = NewProfileForm(request.POST, request.FILES)
+        if profile_form.is_valid():
+            profile = profile_form.save(commit=False)
+            profile.user = current_user
+            profile.save()
+        return redirect('profile')
+
+    else:
+        profile_form = NewProfileForm()
+    return render(request, 'new_profile.html', {"profile_form": profile_form,})
