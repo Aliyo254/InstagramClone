@@ -23,3 +23,7 @@ def new_image(request):
     else:
         form = NewImageForm()
     return render(request, 'new_image.html', {"form": form})
+def profile(request):
+    profiles=Profile.objects.filter(user=request.user.id)
+    images=Image.objects.filter(user=request.user.id)
+    return render (request,'profile.html',{'images':images,'profiles':profiles,})
