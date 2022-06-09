@@ -1,1 +1,1 @@
-web: gunicorn project_gram.wsgi
+web: gunicorn Instaclone.wsgi
