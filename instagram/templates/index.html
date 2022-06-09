@@ -1,5 +1,48 @@
-<h1>welcome to the instagram</h1>
-{%extends 'base.html'%} 
+{%extends 'base.html'%}
 {% block content%}
-<h1 style="text-align:center;">welcome to the gram</h1>
+
+
+
+<div style="padding-top: 100px;" class="container">
+  <h1 style="color:#4F0505;text-align:center;font-family: 'Monoton', cursive;">Welcome </h1>
+
+    <h2 style="color:#4F0505;text-align:center;font-family: 'Charmonman', cursive;">ENjoy Your Moments</h2>
+    <hr>
+        <div class="row">
+      <div class="col-md-1"></div>
+                <div class="col-md-7 ">
+
+                        {% for image in images %}
+                                <div style="border-style:solid;border-color:black;"class="card img-thumbnail">
+                                  <img src="{{image.profile.profile_pic.url}}" alt="profile pic"><p> <strong> {{image.user.username}} </strong></p>
+                                <img src="{{image.image.url}}" alt="pic" width="500px" height="500px">
+                                {% autoescape off %}
+                                <p> <strong> {{image.user.username}} </strong>  {{image.post_date|timesince}} ago</p>
+
+                                <p> {{image.caption}}</p>
+                                <div class="icons mt-3">
+                              <a id="like" href="{% url 'like' operation='like' pk=image.id%}" style="color:inherit;">
+                                <i style="color:red;" class="fa fa-heart fa-2x ml-4"></i>
+                                 </a>
+                                 <a href="#"  style="color:red;"><i class="fa fa-comment fa-2x ml-4"></i></a>
+
+                                   </div>
+
+                                   <h5>likes{{image.likes}}</h5>
+
+                                {% endautoescape %}
+                                </div>
+                        {% endfor %}
+
+                </div>
+        </div>
+
+
+</div>
+
+
+<style>
+
+
+</style>
 {%endblock%}
