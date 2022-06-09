@@ -5,6 +5,12 @@ from tinymce.models import HTMLField
 # Create your models here.
 class Comment(models.Model):
     comment=models.CharField(max_length=60)
+class Profile(models.Model):
+    profile_pic=models.ImageField(upload_to='profile_photos/')
+    bio=models.CharField(max_length=300)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+
+
 
 
 class Image(models.Model):
@@ -13,6 +19,7 @@ class Image(models.Model):
     likes=models.PositiveIntegerField(default=0)
     post_date = models.DateTimeField(auto_now_add=True)
     comments=models.ForeignKey('Comment',on_delete=models.CASCADE)
+    profile=models.ForeignKey(Profile,null=True)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     class Meta:
         ordering=['post_date']
